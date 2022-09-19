@@ -77,7 +77,7 @@ class instance extends instance_skel {
 			{
 				type: 'textinput',
 				id: 'port',
-				label: 'Port (6100, 6200, 6800)',
+				label: 'Target Port',
 				width: 2,
 				default: 6100,
 				regex: this.REGEX_PORT,

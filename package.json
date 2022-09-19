@@ -10,8 +10,8 @@
 		"TCP Command Line"
 	],
 	"manufacturer": "vizRT",
-	"product": "Viz Send",
-	"shortname": "Viz Send",
+	"product": "Send Command Line",
+	"shortname": "Viz Send CL",
 	"homepage": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline#readme",
 	"main": "index.js",
 	"scripts": {
