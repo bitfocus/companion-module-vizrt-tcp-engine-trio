@@ -1,2 +1,4 @@
-# companion-module-[replace with module name]
-See [HELP.md](./HELP.md) and [LICENSE](./LICENSE)
+# companion-module-vizrt-sendcommandline
+
+**V1.0.0**
+A generic module for performing simple TCP requests to vizRT Engine and vizRT Trio, for more info look in HELP.md

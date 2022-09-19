@@ -1,0 +1,29 @@
+{
+	"name": "vizrt-sendcommandline",
+	"version": "0.0.1",
+	"api_version": "0.0.1",
+	"description": "vizRT Send Command Line",
+	"keywords": [
+		"Video",
+		"Software",
+		"Graphics",
+		"TCP Command Line"
+	],
+	"manufacturer": "vizRT",
+	"product": "Viz Send",
+	"shortname": "Viz Send",
+	"homepage": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline#readme",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline.git"
+	},
+	"author": "Christian Da Cruz <christian.dacruz@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline/issues"
+	}
+}

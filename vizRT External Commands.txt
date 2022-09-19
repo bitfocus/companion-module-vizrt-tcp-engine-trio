@@ -1,0 +1,336 @@
+
+VizCommandsManual
+________________________________________
+Viz External commands Manual
+Introduction
+Viz can get ascii command using a TCP connection in a port defined in the Config / Communication (the default value is 6100). 
+General Viz command structure
+This is the general Viz command structure: <Leading Flag> <Layer><Action><Value> 
+Leading Flag
+A leading 0 (zero) or higher in front of the command-string will give you a reply. A leading -1 or lower will give you no reply. 
+Viz Layers
+Viz has three layers: Back layer, middle layer and front layer. A scene can be loaded in each layer. 
+The layer names: 
+ RENDERER 
+ RENDERER*FRONT_LAYER 
+ RENDERER*BACK_LAYER 
+Or you can access directly by scene name: SCENE*SceneName 
+Control Channels
+Control channels are a way to 'link' a scene node to an object. If you export a node to a control channel this link will be established, and you can access the node properties using this control channel. And if you later change the hirarcy of the node in the tree, the link will still remain. 
+Control channel name convention: 
+•	@ControlName. For example: @Node1Control. 
+
+
+Conventions
+Note that in VIZ, caps does matter. These are all different names: DirName, dirName, dirname and DIRNAME.        Here are the conventions used in this manual: 
+<SceneName>           - The viz scene name. 
+                         Example:  SCENE*Election_2001is/2_countd
+
+ <NodeFullPath>        - The Viz node, full hierarchy.  
+                         Example: $all$base$kerne 
+                       - Or Control Channel name 
+                         Example: @ControlChannelName
+
+ <NodeNum>             - The Viz node number.  
+                         Example: #407 
+
+ <DirectorName>        - The Viz directory name. 
+                         Example:  Dir1
+
+ <S2VNumber>           - The S2V number starting from 0 to 9.
+                         Example:  2
+
+ <OnOff>               - The number indicating something to be either on (1) or off(0).
+                         Example: 0
+
+ <PointName>           - The Stop/Tag point name. 
+                         Example:  $PointName
+
+ <KeyFrameName>        - The Key frame name. 
+                         Example:  $Keyframe1
+
+ <KeyFrameNum>         - The Key frame number. 
+                         Example:  #234
+
+ <CameraNumber>        - The camera number from 1 to 16.
+                         Example:  1
+
+ <KeyFrameValues>      - The values of the Key frame. 
+                         Example:  10.0 20.0 30.0
+
+ <External Image Path> - Image name and path.
+                         Example:  k:\arkiv\db_bilder1\cisco.rgb
+
+ <Viz Image Path>      - Image name and path from viz. 
+                         Example: IMAGE*dir1/image1
+
+ <PluginName>          - The viz plugin name.
+                         Example:  TreeStatus
+
+ <PluginParameter>     - The viz plugin parameter name.
+                         Example:  command
+
+ <VizPluginButtonName> - The viz plugin button name.
+                         Example:  initialize
+
+ <ActionChannelName>   - The action channel name
+                         Example :MyAction  
+
+ <VizTime>            - Viz time in seconds  
+                         Example :30.3
+                       or  
+                      - Viz time in frames  
+                         Example :F19
+
+ 
+Viz Commands
+Note that each command must be preceded by a Leading Flag. All commands that GET something must have a zero or positive Leading Flag - after all, would it make any sense to have no result for these commands? 
+Scene related commands
+ * Get all the viz scenes tree           : SCENE GET_ALL_GROUPS
+ * Get the loaded scene in the renderer  : RENDERER GET_OBJECT
+ * Set Scene in renderer, load if
+   necessary                             : RENDERER SET_OBJECT SCENE*<SceneName>
+ * Load Scene to the memory              : SCENE*<SceneName> LOAD
+
+Hierarchy related commands
+ * Get Scene Tree                  : RENDERER*TREE GET
+ * Get the Control Channels        : RENDERER*TREE*CONTROL_CHANNEL GET
+ * Get Visibility Status           : RENDERER*TREE*<NodeFullPath>*ACTIVE GET
+ * Change Visibility Status        : RENDERER*TREE*<NodeFullPath>*ACTIVE SET <OnOff>
+ * Get Obstruction/Key Status      : RENDERER*TREE*<NodeFullPath>*KEY GET
+ * Change Obstruction/Key Status   : RENDERER*TREE*<NodeFullPath>*KEY*DRAW_KEY SET <OnOff>
+ * Get Text string                 : RENDERER*TREE*<NodeFullPath>*GEOM*TEXT GET
+ * Change Text string              : RENDERER*TREE*<NodeFullPath>*GEOM*TEXT SET <New Text>
+ * Get Name of Image               : RENDERER*TREE*<NodeFullPath>*TEXTURE*DATA GET
+ * Set Image name                  : RENDERER*TREE*<NodeFullPath>*TEXTURE*IMAGE SET <External Image Path>
+   or                                RENDERER*TREE*<NodeFullPath>*TEXTURE*IMAGE SET <Viz Image Path>
+ * Change Transformation - Position: RENDERER*TREE*<NodeFullPath>*TRANSFORMATION*POSITION SET <x> <y> <z>
+ * Change Transformation - Rotation: RENDERER*TREE*<NodeFullPath>*TRANSFORMAT ION*ROTATION SET <x> <y> <z>
+ * Change Transformation - Scaling : RENDERER*TREE*<NodeFullPath>*TRANSFORMATION*SCALING SET <x> <y> <z>
+Note: For the following commands the <r>, <g> and <b> values are normalized (that is, each is a decimal between 0-1 including, i.e. 0.73 or 1). 
+ * Change Material Ambient : RENDERER*TREE*<NodeFullPath>*MATERIAL*AMBIENT SET <r> <g> <b>
+ * Change Material Specular: RENDERER*TREE*<NodeFullPath>*MATERIAL*SPECULAR SET <r> <g> <b>
+ * Change Material Diffuse : RENDERER*TREE*<NodeFullPath>*MATERIAL*DIFFUSE SET <r> <g> <b>
+ * Change Material Emission: RENDERER*TREE*<NodeFullPath>*MATERIAL*EMISSION SET <r> <g> <b>
+
+
+
+
+Bounding box related commands
+ * Show or hide the bounding box: RENDERER SHOW_BOUNDING_BOX <OnOff>
+ * And then for a specific node : RENDERER*EDITED_OBJECT SET SCENE*<SceneName>*TREE*<NodeFullPath>
+ * The x,y,z coordinates and extents for a node : RENDERER*TREE*<NodeFullPath>*BOUNDING_BOX GET
+ * To show the bounding box: RENDERER SHOW_BOUNDING_BOX 1
+ * To set which bounding box is shown: RENDERER*EDITED_OBJECT SET <ObjectLocation>
+   If <ObjectLocation> is empty, no bounding box is shown.
+
+If you want to set the bounding box you have to show it first! (RENDERER REDRAW should work.) 
+Key related commands
+Show or hide the Key: RENDERER SET_KEY <OnOff>
+Animation related commands
+All directors 
+ * Get Director Structures          : RENDERER*STAGE*ANIMATION GET_DIRECTOR_DATA
+ * Get Directors Names              : RENDERER*STAGE*DIRECTOR GET
+ * Start all directors              : RENDERER*STAGE START
+ * Stop all directors               : RENDERER*STAGE STOP
+ * Continue all directors           : RENDERER*STAGE CONTINUE
+ * Continue reverse all directors   : RENDERER*STAGE CONTINUE REVERSE
+ * All director go to beginning     : RENDERER*STAGE SHOW BEGIN 
+   or                               : RENDERER*STAGE SHOW 0.0
+
+
+
+
+
+
+
+
+
+
+
+Specific directors commands 
+ * Add a director                   : RENDERER*STAGE ADD <DirectorName>
+ * Get data of a specific director  : RENDERER*STAGE*DIRECTOR*<DirectorName>*DATA GET
+ * Get stop/tag points data of a specific director  
+                                    : RENDERER*STAGE*DIRECTOR*<DirectorName>*EVENT GET
+ * Start director                   : RENDERER*STAGE*DIRECTOR*<DirectorName> START
+ * Stop  director                   : RENDERER*STAGE*DIRECTOR*<DirectorName> STOP
+ * Continue  director               : RENDERER*STAGE*DIRECTOR*<DirectorName> CONTINUE
+ * Continue reverse  director       : RENDERER*STAGE*DIRECTOR*<DirectorName> CONTINUE REVERSE
+ * Set one director to beginning    : RENDERER*STAGE*DIRECTOR*<DirectorName> SHOW BEGIN
+   or                                 RENDERER*STAGE*DIRECTOR*<DirectorName> SHOW 0.0
+ * Move director to tag/stop point  : RENDERER*STAGE*DIRECTOR*<DirectorName> SHOW <PointName>
+ * Get the End Time of an animation : RENDERER*STAGE*DIRECTOR*<DirectorName>*END_TIME GET
+ * Get the StartTime of an animation: RENDERER*STAGE*DIRECTOR*<DirectorName>*START_TIME GET
+ * Get director status data         : RENDERER*STAGE*DIRECTOR*<DirectorName> GET_STATUS
+ * Get only director status         : RENDERER*STAGE*DIRECTOR*<DirectorName> GET_TIMELINE
+ * Start/run director without stopping at stop points: 
+                                      RENDERER*STAGE*DIRECTOR*<DirectorName> START_NOSTOP
+ * Continue/run director without stopping at stop points: 
+                                      RENDERER*STAGE*DIRECTOR*<DirectorName> CONTINUE_NOSTOP
+ * Continue Director but ignore the first stop point that follows :
+                                      RENDERER*STAGE*DIRECTOR*<DirectorName> CONTINUE_IGNORE_NEXT_STOP
+
+
+ * Copy Animation to a specific director :
+                                   RENDERER*STAGE*DIRECTOR*<DirectorName>*OBJECT SET <NodeNum>
+
+
+
+
+
+
+
+
+animation action channel commands 
+ * Define an action                 : RENDERER*STAGE*DIRECTOR*<DirectorName>*ACTION ADD <ActionName>
+ * Define an action keyframe        : RENDERER*STAGE*DIRECTOR*<DirectorName>*ACTION*<ActionName> ADD <time>
+ * Change value of an action key frame :                                  
+                         RENDERER*STAGE*DIRECTOR*<DirectorName>*ACTION*<ActionChannelName>*KEY*<KeyFrameName>*VALUE SET <KeyFrameValues>
+Stop / Tag points commands 
+ * Add stop point               : RENDERER*STAGE*DIRECTOR*<DirectorName>*EVENT ADD <TimeInSeconds> STOP 
+ * Move a stop point            : RENDERER*STAGE*DIRECTOR*<DirectorName>*EVENT*KEY*<KeyFrameName>*TIME SET <VizTime>
+                  or
+                                : RENDERER*STAGE*DIRECTOR*<DirectorName>*KEY*<KeyFrameName>*TIME SET <VizTime>
+key frames commands 
+ * Command to add the channel if it does not exist ( needed for some channels types )
+                      : RENDERER*TREE*<NodeFullPath>*ANIMATION*KEY UPDATE 1
+ * Command to change the value of a key frame 
+                      : RENDERER*TREE*<NodeFullPath>*ANIMATION*KEY*<KeyFrameName>*VALUE SET <KeyFrameValues>
+                      : RENDERER*TREE*<NodeFullPath>*ALPHA*ANIMATION*ALPHA*<KeyFrameNum>*VALUE SET <KeyFrameValues>
+ * Add position key frame   : RENDERER*TREE*<NodeFullPath>*TRANSFORMATION*POSITION*ANIMATION*POSITION ADD <VizTime>
+ * Add position key frame with name (starting viz version 2.7pl2)
+       : RENDERER*TREE*<NodeFullPath>*TRANSFORMATION*POSITION*ANIMATION*POSITION ADD <VizTime> <KeyFrameName>
+
+ * Add scaling key frame    : RENDERER*TREE*<NodeFullPath>*TRANSFORMATION*SCALING*ANIMATION*SCALING ADD <VizTime>
+ * Add visibility key frame : RENDERER*TREE*<NodeFullPath>*ANIMATION*VISIBLE ADD <VizTime>
+ * Add alpha key frame      : RENDERER*TREE*<NodeFullPath>*ALPHA*ANIMATION*ALPHA ADD <VizTime>
+ * Change the name of a key frame : RENDERER*TREE*<NodeFullPath>*ANIMATION*KEY*<KeyFrameNum>*NAME SET <NewName>
+ * Set time to a key frame  :  RENDERER*TREE*<NodeFullPath>*ANIMATION*KEY*<KeyFrameNum>*TIME SET <VizTime>
+
+ * Add a GEOM key frame require two operations :
+                                    RENDERER*TREE*<NodeFullPath>*GEOM*<PluginParameter> SET <VizTime>
+                                    RENDERER*TREE*<NodeFullPath>*ANIMATION*KEY UPDATE <VizTime>
+ * Add a function key frame : RENDERER*TREE*<NodeFullPath>*FUNCTION*<PluginName>*ANIMATION*<PluginParameter> ADD <VizTime>
+ * Add GEOM key frame       : RENDERER*TREE*<NodeFullPath>*GEOM*ANIMATION*<PluginParameter> ADD <vizTime>
+
+
+
+
+Camera related commands
+ * Get Current Camera   : RENDERER*CURRENT_CAMERA GET
+ * Change Camera        : RENDERER SET_CAMERA <CameraNumber> 1
+                          ( use THIS_EDITOR in order to change the camera using action key frame )
+ * Add FRONT_LAYER or BACK_LAYER to each command to get or set to these layers - i.e.
+                          RENDERER*CURRENT_CAMERA GET FRONT_LAYER
+ * Change camera to Perspective or Orthographic :
+                          RENDERER*<CameraNumber>*VIEW SET PERSPECTIVE 
+                                 ( i.e. RENDERER*CAMERA1*VIEW SET PERSPECTIVE )
+                          RENDERER*<CameraNumber>*VIEW SET ORTHOGONAL
+                                 ( i.e. RENDERER*CAMERA1*VIEW SET ORTHOGONAL )
+ * Setting the Frustum of an Orthograophic camera
+                          RENDERER*<CameraNumber>*FRUSTUM SET <Left> <Right> <Bottom> <Top>
+                                 ( i.e. RENDERER*CAMERA2*FRUSTUM SET -100 100 -100 100 )
+ 
+S2V related commands
+ * S2V - get status and Name: RENDERER*S2V*<S2VNumber> GET
+ * Get Cureent S2V          : RENDERER*S2V*INDEX GET
+ * Change current S2V       : RENDERER*S2V*INDEX SET <S2VNumber>
+Clean Up related commands
+ * Clean up the images memory: IMAGE CLEANUP
+ * Clean up the fonts memory : FONT CLEANUP
+ * Clean up the scenes memory: SCENE CLEANUP
+ * Which scenes are loaded   : SCENE INFO
+ * Which images are loaded   : IMAGE INFO
+Note: The console-window does not reset the texture usage when you send IMAGE CLEANUP. It will still be counting up. Use IMAGE_INFO to see if any images are loaded. 
+Initialization related commands
+ * to force viz to allocate the memory for textures in the renderer , 
+   this will create all display lists for plugins, build text objects, define textures..... :
+                   RENDERER INITIALIZE
+ * To initialize automatically use:
+                   RENDERER*UPDATE SET 0
+                   RENDERER*UPDATE SET 0
+
+ * Force a scene to be reloaded 
+  (Note that you have to use SET_OBJECT in order to load this scene to the renderer :
+                  <SceneName> RELOAD
+
+
+
+
+VIZ Plugins
+ * Calling Viz Scene plugin parameter: 
+                   RENDERER*FUNCTION*<PluginName>*<PluginParameter> SET <value>
+
+ * "Virtual" press on viz scene plugin button: 
+                   RENDERER*FUNCTION*<PluginName>*<VizPluginButtonName> INVOKE
+
+ * Calling Viz container plugin parameter: 
+                   RENDERER*TREE*<NodeFullPath>*FUNCTION*<PluginName>*<PluginParameter> SET <value>
+
+ * "Virtual"press on viz container plugin button:
+                   RENDERER*TREE*<NodeFullPath>*FUNCTION*<PluginName>*<VizPluginButtonName> INVOKE
+
+ * To get the interface of a function plugin: 
+                   BUILT_IN*FUNCTION*<PluginName>*PARAMETER GET
+
+ * To get the interface of a geom plugin: 
+                   BUILT_IN*GEOM*<PluginName>*PARAMETER GET
+Trio related commands
+ * To run transition from one specific stop point to another:  RENDERER*STAGE*DIRECTOR*<DirectorName> GOTO_TRIO $<Stop Name> $<Stop Name>
+Targa 3200 commands
+ * To set clip to a codec channel:  THIS_SCENE*STAGE*DIRECTOR*<directorname>*TARGA3200*2*KEY*$<Stop Name>*CLIPNAME SET <path-to-clip - f.ex:  c:\myclip.avi>
+Other Commands
+ * Get the used memory and total texture memory: MAIN*SYSTEM*TEXTURE_MEMORY_INFO GET
+        The answer is the maximum amount of texture memory of the system and the amount of memory available
+ * Show how much memory is used :  TEXTURE_MEMORY_INFO GET ( not how much texture memory is available !)
+ * Show console window: MAIN SHOW_COMMANDS ON
+ * Set viz|artist in control-mode (onair-mode): MAIN SWITCH_EXTERNAL ON
+ * Get license information: @KEY GET INFO
+ * Set license key: @KEY SET <license string>
+ * Force an immediate redraw: RENDERER REDRAW
+
+
+
+
+ViewPorts Commands
+ * Setting the mask of a view port :
+                   RENDERER*WINDOW*VIEWPORT*<ViewPortNumber>*VIEWPORT_MASK SET <MaskValue>
+                   ( i.e. RENDERER*WINDOW*VIEWPORT*0*VIEWPORT_MASK SET 0x1 )
+ * Setting the clear color of a view port :
+                   RENDERER*WINDOW*VIEWPORT*<ViewPortNumber>*CLEAR_COLOR SET <red> <green> <blue> <alpah>
+                   ( i.e. RENDERER*WINDOW*VIEWPORT*1*CLEAR_COLOR SET 0.5 0.0 0.0 1.0 )
+ * Setting the camera of a view port :
+                   RENDERER*WINDOW*VIEWPORT*<ViewPortNumber>*CAMERA SET <CameraNumber>
+                   ( i.e. RENDERER*WINDOW*VIEWPORT*2*CAMERA SET 3 )
+ * Setting "all attributes" of a view port :
+                   RENDERER*WINDOW*VIEWPORT*<ViewPortNumber>*SET_ALL_ATTRIBUTES <Xpos> <YPos> <Wdith> <Height> <CameraNumber> <Active>
+                   ( i.e. RENDERER*WINDOW*VIEWPORT*0 SET_ALL_ATTRIBUTES 0 0 400 300 1 1 )
+
+Device and Post Rendering Commands
+ * Getting available devices: DEVICE*DATA GET
+ * Setting recording parameters:
+     RENDERER*POST*START SET <time>
+     RENDERER*POST*END SET <time>
+     RENDERER*POST*DEVICE SET DEVICE*<number>
+     RENDERER*POST*NAME SET <filename>
+ * Start recording: RENDERER*POST RECORD
+ * Get recording status: RENDERER*POST*STATUS GET
+ * Stop recording: RENDERER*POST STOP_RECORDING
+Audio
+RENDERER*AUDIO*CHANNEL*channel*AUDIO_VOLUME SET volume 
+•	channel: Integer value identifying audio channel. 
+•	volume: Number in the range [0, 100]. 
+Tips
+•	In a VIZ action you can write THIS_SCENE instead of RENDERER or SCENE*scenename. RENDERER can only be used when there is a scene in the renderer, and SCENE*scenename is cumbersome when you for instance move the scene. Example: 
+THIS_SCENE*TREE*<NodeFullPath>*ACTIVE SET 0
+•	In a VIZ action (for cameras operations) you can use THIS_EDITOR the same way. E.g. if you'd like to give a command to change the camera in a command keyframe: 
+THIS_EDITOR SET_CAMERA 2 1
+In that case you should not use EDITOR*1 SET_CAMERA 2 1 or RENDERER SET_CAMERA 2 1. 
+
+
+Howto apply new license key to viz using copy-past technique.
+If you type in the license key klicking the "i" button in upper right corner of viz, you can use SHIFT+INS (Ctrl+V does not work) to copy the license into the license edit field. Dependant of monitor resolution etc., you might not see the "i". There is tough an another approach. Click the "Show commands" button in the lower left corner and copy the license string (rightclick) into the console window like this: 
+send @KEY SET C1 7F 8C 01 40 21 81 09 E4 E4 3C 1B 6D D5 49 FF AA dd 4B 31 3C 8C E5 rr 40 C1 6F 3C E5 E5 4C 7C
+You can ofcourse create a template in viz|content pilot to accomplish exaclty the same. This can be helpful if you only have remote access to viz|engine. 
+Note! This latter approach will ONLY WORK if your license has not expired yet (able to set viz|engine in onair-mode  )! 
