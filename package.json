@@ -1,5 +1,5 @@
 {
-	"name": "vizrt-sendcommandline",
+	"name": "vizrt-tcp-engine-trio",
 	"version": "0.0.1",
 	"api_version": "0.0.1",
 	"description": "vizRT Send Command Line",
@@ -12,18 +12,18 @@
 	"manufacturer": "vizRT",
 	"product": "Send Command Line",
 	"shortname": "Viz Send CL",
-	"homepage": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline#readme",
+	"homepage": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio#readme",
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline.git"
+		"url": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio.git"
 	},
 	"author": "Christian Da Cruz <christian.dacruz@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/bitfocus/companion-module-vizrt-sendcommandline/issues"
+		"url": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio/issues"
 	}
 }
