@@ -1,6 +1,6 @@
 {
 	"name": "vizrt-tcp-engine-trio",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "vizRT Send Command Line",
 	"keywords": [
 		"Video",
