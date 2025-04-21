@@ -1,7 +1,6 @@
 {
 	"name": "vizrt-tcp-engine-trio",
 	"version": "1.0.0",
-	"api_version": "1.0.0",
 	"description": "vizRT Send Command Line",
 	"keywords": [
 		"Video",
@@ -9,28 +8,16 @@
 		"Graphics",
 		"TCP Command Line"
 	],
-	"manufacturer": "vizRT",
-	"product": "Send Command Line",
-	"shortname": "Viz Send CL",
-	"homepage": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio#readme",
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev": "webpack --mode development --watch",
-		"build": "webpack --mode production"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio.git"
+		"dist": "companion-module-build"
 	},
 	"author": "Christian Da Cruz <christian.dacruz@gmail.com>",
 	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio/issues"
-	},
 	"dependencies": {
-		"@companion-module/base": "^1.4.0"
+		"@companion-module/base": "~1.11.3"
 	},
 	"devDependencies": {
 		"@companion-module/tools": "^2.3.0"

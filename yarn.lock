@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@companion-module/base@^1.4.0":
+"@companion-module/base@~1.11.3":
   version "1.11.3"
   resolved "https://registry.yarnpkg.com/@companion-module/base/-/base-1.11.3.tgz#12e54056d1873c588d47869917fbbb850871651c"
   integrity sha512-6oVmvtLguDly+zcSN86D0Z++yI60oeH3X/gumJ1FdBkZjdozlKFAsSykIvYQ0QIs+SMFRh1C9M/F6egOVT/RMA==

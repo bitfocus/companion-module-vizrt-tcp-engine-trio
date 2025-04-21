@@ -1,9 +1,10 @@
 {
+	"$schema": "https://raw.githubusercontent.com/bitfocus/companion-module-base/main/assets/manifest.schema.json",
 	"id": "vizrt-tcp-engine-trio",
 	"name": "vizRT TCP Engine Trio",
 	"shortname": "Viz Send CL",
 	"description": "vizRT Send Command Line",
-	"version": "1.0.0",
+	"version": "0.0.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio.git",
 	"bugs": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio/issues",
@@ -14,11 +15,12 @@
 		}
 	],
 	"runtime": {
-		"type": "node18",
+		"type": "node22",
 		"api": "nodejs-ipc",
-		"apiVersion": "1.0.0",
+		"apiVersion": "0.0.0",
 		"entrypoint": "../index.js"
 	},
+	"legacyIds": [],
 	"manufacturer": "vizRT",
 	"products": ["Send Command Line"],
 	"keywords": ["Video", "Software", "Graphics", "TCP Command Line"]
