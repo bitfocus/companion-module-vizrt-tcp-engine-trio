@@ -14,8 +14,11 @@
 	"shortname": "Viz Send CL",
 	"homepage": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio#readme",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "webpack --mode development --watch",
+		"build": "webpack --mode production"
 	},
 	"repository": {
 		"type": "git",
@@ -25,5 +28,11 @@
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/bitfocus/companion-module-vizrt-tcp-engine-trio/issues"
+	},
+	"dependencies": {
+		"@companion-module/base": "^1.4.0"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^2.3.0"
 	}
 }
