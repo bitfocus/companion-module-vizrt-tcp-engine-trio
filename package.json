@@ -20,6 +20,6 @@
 		"@companion-module/base": "~1.11.3"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.3.0"
+		"@companion-module/tools": "^2.6.1"
 	}
 }
